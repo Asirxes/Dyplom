@@ -1,0 +1,2 @@
+# Dyplom
+ Praca dyplomowa
