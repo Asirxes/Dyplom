@@ -1,9 +1,25 @@
+import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
 
 void main() {
   runApp(MyApp());
+}
+
+class User {
+  final String email;
+  final String password;
+  User(this.email, this.password);
+}
+
+class Uczelnia {
+  final String nazwa;
+  final String miasto;
+  Uczelnia({required this.nazwa, required this.miasto});
 }
 
 class MyApp extends StatelessWidget {
@@ -12,145 +28,113 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Studenci dla studentów',
       theme: ThemeData(
-        primarySwatch: Colors.brown,
+        primarySwatch: Colors.blue,
+        appBarTheme: AppBarTheme(
+          color: Colors.brown,
+        ),
       ),
-      home: MyHomePage(),
+      home: HomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<StatefulWidget> createState() {
+    return _HomePageState();
+  }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  bool _isLoggedIn = false;
-  String? _email;
-  String? _password;
-  SharedPreferences? _prefs;
+class _HomePageState extends State<HomePage> {
+  late Database database;
+  List<Uczelnia> uczelnie = [];
+  List<User> users = [];
+  User? loggedInUser;
 
   @override
   void initState() {
     super.initState();
-    _loadUserState();
+    _initializeDatabase();
   }
 
-  _loadUserState() async {
-    _prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _isLoggedIn = _prefs!.getBool('isLoggedIn') ?? false;
-      _email = _prefs!.getString('email');
-      _password = _prefs!.getString('password');
+  Future<void> _initializeDatabase() async {
+    Directory documentsDirectory = await getApplicationDocumentsDirectory();
+    String path = "${documentsDirectory.path}/sample.db";
+    database = await openDatabase(
+      path,
+      version: 1,
+      onCreate: (Database db, int version) async {
+        await db.execute(
+            "CREATE TABLE uczelnie (id INTEGER PRIMARY KEY, nazwa TEXT, miasto TEXT)");
+        await db.execute(
+            "CREATE TABLE users (id INTEGER PRIMARY KEY, email TEXT, password TEXT)");
+        await db.transaction((txn) async {
+          await txn.rawInsert(
+              'INSERT INTO uczelnie(nazwa, miasto) VALUES("Politechnika Warszawska", "Warszawa")');
+          await txn.rawInsert(
+              'INSERT INTO uczelnie(nazwa, miasto) VALUES("Uniwersytet Jagielloński", "Kraków")');
+          await txn.rawInsert(
+              'INSERT INTO uczelnie(nazwa, miasto) VALUES("Uniwersytet Wrocławski", "Wrocław")');
+        });
+      },
+    );
+
+    _loadUczelnie();
+  }
+
+  Future<void> _loadUczelnie() async {
+    List<Map> list = await database.rawQuery('SELECT * FROM uczelnie');
+    list.forEach((element) {
+      uczelnie.add(Uczelnia(nazwa: element['nazwa'], miasto: element['miasto']));
     });
-  }
-
-  _register(String email, String password) async {
-    if (_prefs!.getString(email) == null) {
-      if (password.length >= 8) {
-        _prefs!.setString(email, password);
-        _login(email, password);
-        Fluttertoast.showToast(msg: "Rejestracja udana!");
-      } else {
-        Fluttertoast.showToast(msg: "Hasło musi mieć co najmniej 8 znaków!");
-      }
-    } else {
-      Fluttertoast.showToast(msg: "Email jest już zajęty!");
-    }
-  }
-
-  _login(String email, String password) async {
-    String? storedPassword = _prefs!.getString(email);
-    if (storedPassword == password) {
-      _prefs!.setBool('isLoggedIn', true);
-      _prefs!.setString('email', email);
-      _prefs!.setString('password', password);
-      setState(() {
-        _isLoggedIn = true;
-        _email = email;
-        _password = password;
-      });
-      Fluttertoast.showToast(msg: "Zalogowano pomyślnie!");
-    } else {
-      Fluttertoast.showToast(msg: "Złe dane logowania!");
-    }
-  }
-
-  _logout() {
-    setState(() {
-      _isLoggedIn = false;
-    });
-    _prefs!.remove('isLoggedIn');
-    Fluttertoast.showToast(msg: "Wylogowano!");
-  }
-
-  _changePassword(String newPassword) {
-    if (newPassword.length >= 8) {
-      _prefs!.setString(_email!, newPassword);
-      Fluttertoast.showToast(msg: "Hasło zostało zmienione!");
-    } else {
-      Fluttertoast.showToast(msg: "Hasło musi mieć co najmniej 8 znaków!");
-    }
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Studenci dla studentów'),
-        backgroundColor: Colors.brown,
+        title: Text("Studenci dla studentów"),
         actions: [
-          if (_isLoggedIn)
-            ...[
-              IconButton(
-                icon: Icon(Icons.person),
-                onPressed: () {
-                  _showInfoDialog();
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.vpn_key),
-                onPressed: () {
-                  _showChangePasswordDialog();
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.logout),
-                onPressed: _logout,
-              ),
-            ]
-          else
-            ...[
-              IconButton(
-                icon: Icon(Icons.login),
-                onPressed: () {
-                  _showDialog('Logowanie', _login);
-                },
-              ),
-              IconButton(
-                icon: Icon(Icons.person_add),
-                onPressed: () {
-                  _showDialog('Rejestracja', _register);
-                },
-              ),
-            ],
+          loggedInUser == null
+              ? IconButton(
+                  icon: Icon(Icons.login),
+                  onPressed: () => _showLoginDialog(context),
+                )
+              : IconButton(
+                  icon: Icon(Icons.logout),
+                  onPressed: () => _logout(),
+                ),
+          loggedInUser == null
+              ? IconButton(
+                  icon: Icon(Icons.app_registration),
+                  onPressed: () => _showRegistrationDialog(context),
+                )
+              : SizedBox.shrink(),
         ],
       ),
-      body: Center(
-        child: Text(_isLoggedIn ? 'Zalogowano jako: $_email' : 'Nie jesteś zalogowany'),
-      ),
+      body: loggedInUser == null
+          ? Center(child: Text('Zaloguj się'))
+          : ListView.builder(
+              itemCount: uczelnie.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(uczelnie[index].nazwa),
+                  subtitle: Text(uczelnie[index].miasto),
+                );
+              },
+            ),
     );
   }
 
-  _showDialog(String title, Function(String, String) onActionPressed) {
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
+  void _showLoginDialog(BuildContext context) {
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
 
     showDialog(
       context: context,
-      builder: (context) {
+      builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(title),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -167,46 +151,67 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Anuluj'),
-            ),
-            TextButton(
               onPressed: () {
-                onActionPressed(emailController.text, passwordController.text);
+                _login(emailController.text, passwordController.text);
                 Navigator.pop(context);
               },
-              child: Text('Zatwierdź'),
-            ),
+              child: Text('Zaloguj'),
+            )
           ],
         );
       },
     );
   }
 
-  _showChangePasswordDialog() {
-    final passwordController = TextEditingController();
+  void _login(String email, String password) async {
+    // Simuluj logowanie (możesz zastąpić prawdziwą autoryzacją)
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? savedPassword = prefs.getString(email);
+    if (savedPassword != null && savedPassword == password) {
+      Fluttertoast.showToast(
+          msg: "Zalogowano",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM);
+      setState(() {
+        loggedInUser = User(email, password);
+      });
+    } else {
+      Fluttertoast.showToast(
+          msg: "Nieprawidłowy email lub hasło",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM);
+    }
+  }
+
+  void _showRegistrationDialog(BuildContext context) {
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
 
     showDialog(
       context: context,
-      builder: (context) {
+      builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Zmień hasło'),
-          content: TextField(
-            controller: passwordController,
-            decoration: InputDecoration(labelText: 'Nowe hasło'),
-            obscureText: true,
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: emailController,
+                decoration: InputDecoration(labelText: 'Email'),
+              ),
+              TextField(
+                controller: passwordController,
+                decoration: InputDecoration(labelText: 'Hasło'),
+                obscureText: true,
+              ),
+            ],
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Anuluj'),
-            ),
-            TextButton(
               onPressed: () {
-                _changePassword(passwordController.text);
+                _register(emailController.text, passwordController.text);
                 Navigator.pop(context);
               },
-              child: Text('Zatwierdź'),
+              child: Text('Zarejestruj'),
             ),
           ],
         );
@@ -214,21 +219,39 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  _showInfoDialog() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Informacje o użytkowniku'),
-          content: Text('Email: $_email\nHasło: $_password'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: Text('Zamknij'),
-            ),
-          ],
-        );
-      },
-    );
+  void _register(String email, String password) async {
+    // Simuluj rejestrację (możesz zastąpić prawdziwą rejestrację)
+    if (password.length < 8) {
+      Fluttertoast.showToast(
+          msg: "Hasło musi mieć co najmniej 8 znaków",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM);
+      return;
+    }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString(email) != null) {
+      Fluttertoast.showToast(
+          msg: "Email jest już zajęty",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM);
+      return;
+    }
+
+    prefs.setString(email, password);
+    Fluttertoast.showToast(
+        msg: "Zarejestrowano",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM);
+  }
+
+  void _logout() {
+    Fluttertoast.showToast(
+        msg: "Wylogowano",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM);
+    setState(() {
+      loggedInUser = null;
+    });
   }
 }
