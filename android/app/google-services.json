@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "232096191273",
+    "project_id": "dyplom-986dd",
+    "storage_bucket": "dyplom-986dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:232096191273:android:735ca139b7fb33856b5d38",
+        "android_client_info": {
+          "package_name": "com.example.dyplom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "232096191273-72er3tuchv55pjm7c2vsf7c77n6p2m2n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkcWML8Z9UQl5ccqA45OJABY95xEfTn78"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "232096191273-72er3tuchv55pjm7c2vsf7c77n6p2m2n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

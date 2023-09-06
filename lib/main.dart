@@ -1,25 +1,12 @@
-import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
-}
-
-class User {
-  final String email;
-  final String password;
-  User(this.email, this.password);
-}
-
-class Uczelnia {
-  final String nazwa;
-  final String miasto;
-  Uczelnia({required this.nazwa, required this.miasto});
 }
 
 class MyApp extends StatelessWidget {
@@ -40,54 +27,17 @@ class MyApp extends StatelessWidget {
 
 class HomePage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _HomePageState();
-  }
+  _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  late Database database;
-  List<Uczelnia> uczelnie = [];
-  List<User> users = [];
-  User? loggedInUser;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  User? _user;
 
   @override
   void initState() {
     super.initState();
-    _initializeDatabase();
-  }
-
-  Future<void> _initializeDatabase() async {
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = "${documentsDirectory.path}/sample.db";
-    database = await openDatabase(
-      path,
-      version: 1,
-      onCreate: (Database db, int version) async {
-        await db.execute(
-            "CREATE TABLE uczelnie (id INTEGER PRIMARY KEY, nazwa TEXT, miasto TEXT)");
-        await db.execute(
-            "CREATE TABLE users (id INTEGER PRIMARY KEY, email TEXT, password TEXT)");
-        await db.transaction((txn) async {
-          await txn.rawInsert(
-              'INSERT INTO uczelnie(nazwa, miasto) VALUES("Politechnika Warszawska", "Warszawa")');
-          await txn.rawInsert(
-              'INSERT INTO uczelnie(nazwa, miasto) VALUES("Uniwersytet Jagielloński", "Kraków")');
-          await txn.rawInsert(
-              'INSERT INTO uczelnie(nazwa, miasto) VALUES("Uniwersytet Wrocławski", "Wrocław")');
-        });
-      },
-    );
-
-    _loadUczelnie();
-  }
-
-  Future<void> _loadUczelnie() async {
-    List<Map> list = await database.rawQuery('SELECT * FROM uczelnie');
-    list.forEach((element) {
-      uczelnie.add(Uczelnia(nazwa: element['nazwa'], miasto: element['miasto']));
-    });
-    setState(() {});
+    _user = _auth.currentUser;
   }
 
   @override
@@ -96,7 +46,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text("Studenci dla studentów"),
         actions: [
-          loggedInUser == null
+          _user == null
               ? IconButton(
                   icon: Icon(Icons.login),
                   onPressed: () => _showLoginDialog(context),
@@ -105,7 +55,7 @@ class _HomePageState extends State<HomePage> {
                   icon: Icon(Icons.logout),
                   onPressed: () => _logout(),
                 ),
-          loggedInUser == null
+          _user == null
               ? IconButton(
                   icon: Icon(Icons.app_registration),
                   onPressed: () => _showRegistrationDialog(context),
@@ -113,17 +63,10 @@ class _HomePageState extends State<HomePage> {
               : SizedBox.shrink(),
         ],
       ),
-      body: loggedInUser == null
-          ? Center(child: Text('Zaloguj się'))
-          : ListView.builder(
-              itemCount: uczelnie.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(uczelnie[index].nazwa),
-                  subtitle: Text(uczelnie[index].miasto),
-                );
-              },
-            ),
+      body: Center(
+        child:
+            _user == null ? Text('Zaloguj się') : Text('Witaj ${_user!.email}'),
+      ),
     );
   }
 
@@ -163,23 +106,26 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _login(String email, String password) async {
-    // Simuluj logowanie (możesz zastąpić prawdziwą autoryzacją)
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? savedPassword = prefs.getString(email);
-    if (savedPassword != null && savedPassword == password) {
-      Fluttertoast.showToast(
-          msg: "Zalogowano",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM);
+  Future<void> _login(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
       setState(() {
-        loggedInUser = User(email, password);
+        _user = userCredential.user;
       });
-    } else {
       Fluttertoast.showToast(
-          msg: "Nieprawidłowy email lub hasło",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM);
+        msg: "Zalogowano",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+      );
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: "Nieprawidłowy email lub hasło",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+      );
     }
   }
 
@@ -212,46 +158,46 @@ class _HomePageState extends State<HomePage> {
                 Navigator.pop(context);
               },
               child: Text('Zarejestruj'),
-            ),
+            )
           ],
         );
       },
     );
   }
 
-  void _register(String email, String password) async {
-    // Simuluj rejestrację (możesz zastąpić prawdziwą rejestrację)
-    if (password.length < 8) {
+  Future<void> _register(String email, String password) async {
+    try {
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      setState(() {
+        _user = userCredential.user;
+      });
       Fluttertoast.showToast(
-          msg: "Hasło musi mieć co najmniej 8 znaków",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM);
-      return;
-    }
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getString(email) != null) {
-      Fluttertoast.showToast(
-          msg: "Email jest już zajęty",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM);
-      return;
-    }
-
-    prefs.setString(email, password);
-    Fluttertoast.showToast(
         msg: "Zarejestrowano",
         toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM);
+        gravity: ToastGravity.BOTTOM,
+      );
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: "Email jest już zajęty lub hasło jest za krótkie",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+      );
+    }
   }
 
-  void _logout() {
-    Fluttertoast.showToast(
-        msg: "Wylogowano",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM);
+  Future<void> _logout() async {
+    await _auth.signOut();
     setState(() {
-      loggedInUser = null;
+      _user = null;
     });
+    Fluttertoast.showToast(
+      msg: "Wylogowano",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+    );
   }
 }
