@@ -2,14 +2,14 @@ import 'package:dyplom/tresc_screen/tresc_screen.dart';
 import 'package:dyplom/ranking_screen/ranking_screen.dart';
 import 'package:flutter/material.dart';
 
-class HomePage1 extends StatefulWidget {
-  const HomePage1({super.key});
+class AppBar1 extends StatefulWidget {
+  const AppBar1({super.key});
 
   @override
-  State<HomePage1> createState() => _HomePageState();
+  State<AppBar1> createState() => _AppBar1State();
 }
 
-class _HomePageState extends State<HomePage1> {
+class _AppBar1State extends State<AppBar1> {
   int _pageIndex = 0;
 
   late List<Widget> pageList = [
