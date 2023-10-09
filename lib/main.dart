@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'theme/theme.dart';
+//import 'package:dyplom/dostepnosc_screen/dostepnosc_screen.dart';
+import 'package:dyplom/glowny_screen/glowny_screen.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -10,27 +15,50 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Studenci dla studentów',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        appBarTheme: AppBarTheme(
-          color: Colors.brown,
-        ),
+    return ChangeNotifierProvider(
+      create: (context) => ThemeNotifier(),
+      child: Consumer<ThemeNotifier>(
+        builder: (context, themeNotifier, child) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+        title: 'Studenci dla studentów',
+        theme: themeNotifier.currentTheme,
+        //home: HomePage(),
+        home: EkranGlowny(),
+        );
+        },
       ),
-      home: HomePage(),
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> {  
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? _user;
 
@@ -90,6 +118,7 @@ class _HomePageState extends State<HomePage> {
                 decoration: InputDecoration(labelText: 'Hasło'),
                 obscureText: true,
               ),
+
             ],
           ),
           actions: [
