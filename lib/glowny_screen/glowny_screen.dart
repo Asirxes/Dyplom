@@ -3,7 +3,7 @@ import 'package:dyplom/main.dart';
 import 'package:dyplom/dostepnosc_screen/dostepnosc_screen.dart';
 import 'package:dyplom/ranking_screen/ranking_screen.dart';
 import 'package:dyplom/tresc_screen/tresc_screen.dart';
-import 'package:dyplom/nowe/AppBar.dart';
+import 'package:dyplom/AppBar/AppBar.dart';
 
 class EkranGlowny extends StatefulWidget {
   const EkranGlowny({super.key});
@@ -156,7 +156,7 @@ class _EkranGlownyState extends State<EkranGlowny> {
               child: Text('nowe'),
             ),
 //----------------------------------------------------
-          Container(child: pageList[_pageIndex],)
+          //Container(child: pageList[_pageIndex],)
           ],
         ),
       ),
