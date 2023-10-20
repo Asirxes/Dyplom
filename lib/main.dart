@@ -101,9 +101,8 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Center(
-        child: _user == null
-            ? Text('Zaloguj się')
-            : Text('Witaj ${_user!.email}'),
+        child:
+            _user == null ? Text('Zaloguj się') : Text('Witaj ${_user!.email}'),
       ),
     );
   }
@@ -123,7 +122,8 @@ class _LoginPageState extends State<LoginPage> {
   User? _user;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController oldPasswordController = TextEditingController(); // Nowa kontrolka
+  TextEditingController oldPasswordController =
+      TextEditingController(); // Nowa kontrolka
 
   @override
   Widget build(BuildContext context) {
@@ -139,18 +139,6 @@ class _LoginPageState extends State<LoginPage> {
               Icons.person,
               size: 120.0,
               color: Colors.brown,
-            ),
-            SizedBox(height: 20.0),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
-              child: TextField(
-                controller: oldPasswordController, // Nowa kontrolka
-                decoration: InputDecoration(
-                  labelText: 'Stare Hasło', // Nowy tekst
-                  border: OutlineInputBorder(),
-                ),
-                obscureText: true,
-              ),
             ),
             SizedBox(height: 20.0),
             Container(
@@ -395,7 +383,8 @@ class LogoutPage extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/password_change'); // Przenosi do ekranu zmiany hasła
+                  Navigator.pushNamed(context,
+                      '/password_change'); // Przenosi do ekranu zmiany hasła
                 },
                 child: Text('Edycja hasła'),
                 style: ElevatedButton.styleFrom(
@@ -525,26 +514,34 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
     String newPassword,
     String confirmPassword,
   ) async {
-    try {
-      User user = _auth.currentUser!;
-      final AuthCredential credential = EmailAuthProvider.credential(
-        email: user.email!,
-        password: oldPassword,
-      );
-      await user.reauthenticateWithCredential(credential);
-      await user.updatePassword(newPassword);
+    if (newPassword != confirmPassword) {
       Fluttertoast.showToast(
-        msg: "Zmieniono hasło",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-      );
-      Navigator.pop(context);
-    } catch (e) {
-      Fluttertoast.showToast(
-        msg: "Nie udało się zmienić hasła",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-      );
+          msg: "Hasła nie są jednakowe!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+        );
+    } else {
+      try {
+        User user = _auth.currentUser!;
+        final AuthCredential credential = EmailAuthProvider.credential(
+          email: user.email!,
+          password: oldPassword,
+        );
+        await user.reauthenticateWithCredential(credential);
+        await user.updatePassword(newPassword);
+        Fluttertoast.showToast(
+          msg: "Zmieniono hasło",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+        );
+        Navigator.pop(context);
+      } catch (e) {
+        Fluttertoast.showToast(
+          msg: "Nie udało się zmienić hasła",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+        );
+      }
     }
   }
 }
