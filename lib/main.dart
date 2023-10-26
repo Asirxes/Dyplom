@@ -1,17 +1,24 @@
+import 'package:dyplom/tresc_screen/CategoryRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'theme/theme.dart';
-//import 'package:dyplom/dostepnosc_screen/dostepnosc_screen.dart';
+import 'package:dyplom/theme/theme.dart';
 import 'package:dyplom/glowny_screen/glowny_screen.dart';
 
+import 'package:dyplom/ranking_screen/RatingModel.dart';
+import 'package:dyplom/tresc_screen/Category.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider<CategoryRepository>(
+      create: (context) => CategoryRepository(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -24,41 +31,145 @@ class MyApp extends StatelessWidget {
         builder: (context, themeNotifier, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-        title: 'Studenci dla studentów',
-        theme: themeNotifier.currentTheme,
-        //home: HomePage(),
-        home: EkranGlowny(),
-        );
+            title: 'Studenci dla studentów',
+            theme: themeNotifier.currentTheme,
+            //home: HomePage(),
+            home: EkranGlowny(),
+          );
         },
       ),
     );
   }
 }
 
+class CategoryRepository extends ChangeNotifier {
+  List<Category> categories = [
+    Category(CategoryType.Uczelnie, 'Uczelnie', ['Item1', 'Item2'],
+        []), // Initialize an empty ratings list
+    Category(CategoryType.Wydzialy, 'Wydziały', [
+      'Wydział Budownictwa i Architektury',
+      'Wydział Elektrotechniki i Informatyki',
+      'Wydział Inżynierii Środowiska',
+      'Wydział Mechaniczny',
+      'Wydział Matematyki i Informatyki Technicznej',
+      'Wydział Zarządzania'
+    ], []),
+    Category(CategoryType.Kierunki, 'Kierunki', [
+      'Budownictwo',
+      'Architektura',
+      'Elektrotechnika',
+      'Informatyka',
+      'Inżynierskie zastosowania informatyki w elektrotechnice',
+      'Inżynieria multimediów',
+      'Inżynieria recyklingu',
+      'Inżynieria odnawialnych źródeł energii',
+      'Inżynieria środowiska',
+      'Energetyka',
+      'Mechanika i budowa maszyn',
+      'Mechatronika',
+      'Zarządzanie i inżynieria produkcji',
+      'Transport',
+      'Inżynieria biomedyczna',
+      'Robotyzacja procesów wytwórczych',
+      'Inżynieria pojazdów',
+      'Matematyka (studia inżynierskie)',
+      'Edukacja techniczno-informatyczna',
+      'Inżynieria bezpieczeństwa',
+      'Inżynieria i analiza danych',
+      'Zarządzanie',
+      'Finanse i rachunkowość',
+      'Marketing i komunikacja rynkowa',
+      'Inżynieria logistyki',
+      'Sztuczna inteligencja w biznesie'
+    ], []),
+    Category(CategoryType.Przedmioty, 'Przedmioty', [
+      'Wychowanie fizyczne I',
+      'Wychowanie fizyczne II',
+      'Język angielski I',
+      'Język angielski II',
+      'Język angielski - zawodowy informatyczny ',
+      'Bezpieczeństwo i higiena pracy',
+      'Przysposobienie biblioteczne 2 godz./sem.',
+      'Ochrona własności intelektualnej',
+      'Podstawy ekonomii',
+      'Wprowadzenie na rynek pracy i do działalności gospodarczej',
+      'Podstawy fizyki',
+      'Wstęp do matematyki',
+      'Matematyka dyskretna',
+      'Metrologia',
+      'Technika mikroprocesorowa',
+      'Sieci rozproszone',
+      'Matematyka dla informatyków I',
+      'Matematyka dla informatyków II',
+      'Wprowadzenie do informatyki',
+      'Programowanie strukturalne',
+      'Narzędzia informatyczne',
+      'Programowanie obiektowe w C++',
+      'Podstawy algorytmiki',
+      'Wstęp do systemów operacyjnych',
+      'Podstawy sieci komputerowych',
+      'Algorytmy analizy numerycznej',
+      'Podstawy elektrotechniki i elektroniki',
+      'Programowanie obiektowe w Java',
+      'Architektura komputerów i programowanie niskopoziomowe',
+      'Wprowadzenie do systemów baz danych',
+      'Podstawy grafiki komputerowej',
+      'Podstawy inżynierii oprogramowania',
+      'Bezpieczeństwo informacji',
+      'Podstawy aplikacji internetowych',
+      'Podstawy techniki cyfrowej',
+      'Podstawy paradygmatów programowania',
+      'Systemy wbudowane',
+      'Podstawy sztucznej inteligencji w języku Python',
+      'Projekt zespołowy - projektowanie',
+      'Projekt zespołowy - implementacja',
+      'Seminarium dyplomowe',
+      'Praca dyplomowa'
+    ], []),
+  ];
 
+  // Add a method to update ratings for items
+  void updateRating(CategoryType categoryType, String itemName, double rating) {
+    final categoryIndex =
+        categories.indexWhere((category) => category.type == categoryType);
 
+    if (categoryIndex != -1) {
+      final itemIndex = categories[categoryIndex].items.indexOf(itemName);
 
+      if (itemIndex != -1) {
+        categories[categoryIndex].ratings.add(RatingModel(itemName, rating));
+      }
+    }
+  }
 
+  // Add a method to remove categories or items
+  void removeCategory(CategoryType categoryType) {
+    categories.removeWhere((category) => category.type == categoryType);
+  }
 
+  void removeItem(CategoryType categoryType, String itemName) {
+    final categoryIndex =
+        categories.indexWhere((category) => category.type == categoryType);
 
+    if (categoryIndex != -1) {
+      categories[categoryIndex].items.remove(itemName);
+    }
+  }
 
-
-
-
-
-
-
-
-
-
-
+  // Add a method to add new categories
+  void addNewCategory(
+      CategoryType categoryType, String categoryName, List<String> items) {
+    final newCategory = Category(categoryType, categoryName, items, []);
+    categories.add(newCategory);
+  }
+}
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {  
+class _HomePageState extends State<HomePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? _user;
 
@@ -118,7 +229,6 @@ class _HomePageState extends State<HomePage> {
                 decoration: InputDecoration(labelText: 'Hasło'),
                 obscureText: true,
               ),
-
             ],
           ),
           actions: [

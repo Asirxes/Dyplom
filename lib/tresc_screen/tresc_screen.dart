@@ -1,3 +1,4 @@
+import 'package:dyplom/tresc_screen/Category.dart';
 import 'package:flutter/material.dart';
 //import 'package:provider/provider.dart';
 //import 'package:dyplom/theme/theme.dart';
@@ -66,7 +67,7 @@ class _TrescScreenState extends State<TrescScreen> {
             title: Align(
               alignment: Alignment.center,
               // child: Text(items[index]),
-              child: ContentTile(),
+             // child: const ContentTile(category: null,),
             ),
           );
         },
@@ -77,7 +78,7 @@ class _TrescScreenState extends State<TrescScreen> {
 
 class ContentTile extends StatelessWidget {
   const ContentTile({
-    super.key,
+    super.key, required Category category,
   });
 
   @override

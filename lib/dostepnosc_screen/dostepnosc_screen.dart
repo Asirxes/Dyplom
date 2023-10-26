@@ -1,4 +1,6 @@
 import 'package:dyplom/colors.dart';
+import 'package:dyplom/AppBar/AppBar1.dart';
+import 'package:dyplom/AppBar/BottomNavigationBar.dart';
 import 'package:dyplom/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,9 +18,7 @@ class _DostepnoscScreenState extends State<DostepnoscScreen> {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Dostępność'),
-      ),
+      appBar: AppBar10(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -74,15 +74,7 @@ class _DostepnoscScreenState extends State<DostepnoscScreen> {
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(builder: (context) => _HomePageState()),
-      //     );
-      //   },
-      //   child: Icon(Icons.navigate_next),
-      // ),
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }

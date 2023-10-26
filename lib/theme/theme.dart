@@ -6,11 +6,15 @@ enum AppTheme { Red, Yellow, BlacknY, Black }
 
 class ThemeNotifier with ChangeNotifier {
   ThemeData _currentTheme = ThemeData(
-    brightness: Brightness.light, 
+    brightness: Brightness.light,
     primaryColor: red1,
     primarySwatch: red1,
     scaffoldBackgroundColor: Colors.white,
     textTheme: TextTheme(bodyText1: TextStyle(color: Colors.white)),
+     canvasColor: Colors.green,
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            backgroundColor: red1, // Set the initial color
+          ),
   );
 
   ThemeData get currentTheme => _currentTheme;
@@ -19,17 +23,20 @@ class ThemeNotifier with ChangeNotifier {
     switch (theme) {
       case AppTheme.Red:
         _currentTheme = ThemeData(
-          brightness: Brightness.light, 
+          brightness: Brightness.light,
           primarySwatch: red1,
           primaryColor: red1,
-         
           scaffoldBackgroundColor: Colors.white,
           textTheme: TextTheme(bodyText1: TextStyle(color: Colors.white)),
+
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            backgroundColor: red1, // Set the initial color
+          ),
+
         );
         break;
       case AppTheme.Yellow:
         _currentTheme = ThemeData(
-          
           brightness: Brightness.dark,
           primarySwatch: yellow1,
           primaryColor: white1,
@@ -46,10 +53,13 @@ class ThemeNotifier with ChangeNotifier {
         _currentTheme = ThemeData(
           brightness: Brightness.light,
           primarySwatch: yellow1,
-          primaryColor: Colors.black,  
+          primaryColor: Colors.black,
           scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 112),
           textTheme: TextTheme(bodyText1: TextStyle(color: Colors.black)),
-          
+
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            backgroundColor: yellow1, // Set the initial color
+          ),
         );
         break;
 
@@ -77,13 +87,11 @@ class ThemeNotifier with ChangeNotifier {
           //   secondaryContainer: Color.fromARGB(177, 90, 208, 102),
           //   onSecondaryContainer: Color.fromARGB(255, 99, 61, 190),
           //   tertiary: Color.fromARGB(255, 194, 194, 7),
-          //   onTertiary: Color(0xFF99FF88),   
+          //   onTertiary: Color(0xFF99FF88),
 
           // ),
-          
         );
         break;
-     
     }
     notifyListeners();
   }
