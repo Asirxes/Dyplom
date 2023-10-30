@@ -44,8 +44,76 @@ class MyApp extends StatelessWidget {
 
 class CategoryRepository extends ChangeNotifier {
   List<Category> categories = [
-    Category(CategoryType.Uczelnie, 'Uczelnie', ['Item1', 'Item2'],
-        []), // Initialize an empty ratings list
+    Category(CategoryType.Uczelnie, 'Uczelnie', [
+      //Uniwersytety:
+      'Uniwersytet Warszawski',
+      'Uniwersytet w Białymstoku',
+      'Uniwersytet Gdański',
+      'Uniwersytet im. Adama Mickiewicza w Poznaniu',
+      'Uniwersytet Jagielloński w Krakowie',
+      'Uniwersytet Łódzki',
+      'Uniwersytet Marii Curie-Skłodowskiej w Lublinie',
+      'Uniwersytet Mikołaja Kopernika w Toruniu',
+      'Uniwersytet Opolski',
+      'Uniwersytet Szczeciński',
+      'Uniwersytet Śląski w Katowicach',
+      'Uniwersytet Rzeszowski',
+      'Uniwersytet Warmińsko-Mazurski w Olsztynie',
+      'Uniwersytet Wrocławski',
+      'Uniwersytet Kardynała Stefana Wyszyńskiego w Warszawie',
+      'Uniwersytet Zielonogórski',
+      'Uniwersytet Kazimierza Wielkiego w Bydgoszczy',
+      'Uniwersytet Jana Kochanowskiego w Kielcach',
+      'Akademia Piotrkowska',
+      'Uniwersytet Bielsko-Bialski',
+      'Uniwersytet Radomski im. Kazimierza Pułaskiego',
+      'Uniwersytet Kaliski im. Prezydenta Stanisława Wojciechowskiego',
+//Uczelnie techniczne:
+      'Zachodniopomorski Uniwersytet Technologiczny w Szczecinie',
+      'Politechnika Rzeszowska im. Ignacego Łukasiewicza',
+      'Politechnika Warszawska',
+      'Politechnika Białostocka',
+      'Politechnika Częstochowska',
+      'Politechnika Gdańska',
+      'Politechnika Śląska (Gliwice)',
+      'Politechnika Świętokrzyska w Kielcach',
+      'Politechnika Koszalińska',
+      'Politechnika Krakowska im. Tadeusza Kościuszki',
+      'Akademia Górniczo-Hutnicza im. Stanisława Staszica w Krakowie',
+      'Politechnika Lubelska',
+      'Politechnika Łódzka',
+      'Politechnika Opolska',
+      'Politechnika Poznańska',
+      'Politechnika Wrocławska',
+//Uczelnie ekonomiczne:
+      'Uniwersytet Ekonomiczny w Katowicach',
+      'Uniwersytet Ekonomiczny w Krakowie',
+      'Uniwersytet Ekonomiczny w Poznaniu',
+      'Szkoła Główna Handlowa w Warszawie',
+      'Uniwersytet Ekonomiczny we Wrocławiu',
+//Uczelnie pedagogiczne:
+      'Akademia Pedagogiki Specjalnej im. Marii Grzegorzewskiej (Warszawa)',
+      'Uniwersytet Jana Długosza w Częstochowie',
+      'Uniwersytet Komisji Edukacji Narodowej w Krakowie',
+      'Uniwersytet Pomorski w Słupsku',
+      'Uniwersytet w Siedlcach',
+//Uczelnie rolnicze/przyrodnicze:
+      'Szkoła Główna Gospodarstwa Wiejskiego w Warszawie',
+      'Politechnika Bydgoska im. Jana i Jędrzeja Śniadeckich',
+      'Uniwersytet Rolniczy im. Hugona Kołłątaja w Krakowie',
+      'Uniwersytet Przyrodniczy w Lublinie',
+      'Uniwersytet Przyrodniczy w Poznaniu',
+      'Uniwersytet Przyrodniczy we Wrocławiu',
+//Uczelnie wychowania fizycznego:
+      'Akademia Wychowania Fizycznego i Sportu im. Jędrzeja Śniadeckiego w Gdańsku',
+      'Akademia Wychowania Fizycznego im. Jerzego Kukuczki w Katowicach',
+      'Akademia Wychowania Fizycznego im. Bronisława Czecha w Krakowie',
+      'Akademia Wychowania Fizycznego im. Eugeniusza Piaseckiego w Poznaniu',
+      'Akademia Wychowania Fizycznego Józefa Piłsudskiego w Warszawie',
+      'Akademia Wychowania Fizycznego im. Polskich Olimpijczyków we Wrocławiu',
+//Uczelnie teologiczne:
+      'Chrześcijańska Akademia Teologiczna w Warszawie'
+    ], []), // Initialize an empty ratings list
     Category(CategoryType.Wydzialy, 'Wydziały', [
       'Wydział Budownictwa i Architektury',
       'Wydział Elektrotechniki i Informatyki',

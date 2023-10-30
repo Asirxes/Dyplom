@@ -1,98 +1,10 @@
 import 'package:dyplom/main.dart';
 import 'package:dyplom/ranking_screen/RatingModel.dart';
 import 'package:dyplom/tresc_screen/Category.dart';
-//import 'package:dyplom/tresc_screen/CategoryRepository.dart';
 import 'package:flutter/material.dart';
-//import 'package:dyplom/Api_tresc/api_service.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-
-// void main() {
-//   runApp(MaterialApp(
-//     home: Tresc1 (),
-//   ));
-// }
-
-// class Tresc1 extends StatelessWidget {
-//   final CategoryRepository repository = CategoryRepository();
-//   final CategoryType selectedCategory = CategoryType.Wydzialy; // Change to the desired category
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final List<String> items = repository.categories
-//         .firstWhere((category) => category.type == selectedCategory,
-//             orElse: () => Category(selectedCategory, '', [], []))
-//         .items;
-
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Category: ${selectedCategory.toString()}'),
-//       ),
-//       body: ListView.builder(
-//         itemCount: items.length,
-//         itemBuilder: (context, index) {
-//           return ListTile(
-//             title: Text(items[index]),
-//             subtitle: RatingBar.builder(
-//               itemSize: 25.0,
-//               initialRating: repository.categories
-//                   .firstWhere((category) => category.type == selectedCategory)
-//                   .ratings
-//                   .firstWhere(
-//                     (rating) => rating.itemName == items[index],
-//                     orElse: () => RatingModel(items[index], 0.0),
-//                   )
-//                   .rating,
-//               minRating: 1,
-//               direction: Axis.horizontal,
-//               allowHalfRating: true,
-//               itemCount: 5,
-//               itemPadding: const EdgeInsets.symmetric(horizontal: 4),
-//               itemBuilder: (context, _) => const Icon(Icons.star),
-//               onRatingUpdate: (rating) {
-//                 final ratingModel = RatingModel(items[index], rating);
-//                 final selectedCategoryIndex = repository.categories
-//                     .indexWhere((category) => category.type == selectedCategory);
-//                 if (selectedCategoryIndex != -1) {
-//                   int itemIndex = repository.categories[selectedCategoryIndex].ratings
-//                       .indexWhere((r) => r.itemName == items[index]);
-//                   if (itemIndex != -1) {
-//                     repository.categories[selectedCategoryIndex].ratings[itemIndex] = ratingModel;
-//                   } else {
-//                     repository.categories[selectedCategoryIndex].ratings.add(ratingModel);
-//                   }
-//                 }
-//               },
-//             ),
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }
-
-
-
-
-// Future<void> saveRatingToFirestore(CategoryType categoryType, String itemName, double rating) async {
-//   await Firebase.initializeApp(); // Upewnij się, że Firebase jest zainicjowane.
-//   final firestore = FirebaseFirestore.instance;
-
-//   // Tworzenie referencji do odpowiedniej kolekcji i dokumentu
-//   final collection = 'ratings'; // Możesz dostosować nazwę kolekcji
-//   final document = '$categoryType-$itemName'; // Unikalny identyfikator dla każdego elementu
-
-//   // Zapis oceny do bazy danych
-//   await firestore.collection(collection).doc(document).set({
-//     'categoryType': categoryType.toString(),
-//     'itemName': itemName,
-//     'rating': rating,
-//   });
-// }
-
 
 void main() {
   runApp(MaterialApp(

@@ -1,9 +1,8 @@
 import 'package:dyplom/glowny_screen/glowny_screen.dart';
 import 'package:dyplom/main.dart';
 import 'package:dyplom/tresc_screen/Category.dart';
-//import 'package:dyplom/tresc_screen/CategoryRepository.dart';
-import 'package:dyplom/tresc_screen/tresc_screen.dart';
 import 'package:dyplom/ranking_screen/ranking_screen.dart';
+import 'package:dyplom/tresc_screen/tresc.dart';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
@@ -32,14 +31,14 @@ class _AppBar1State extends State<AppBar1> {
 
   @override
   Widget build(BuildContext context) {
-    final repository = Provider.of<CategoryRepository>(context, listen: false);
+    //final repository = Provider.of<CategoryRepository>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: GestureDetector(
           onTap: () {
             // Navigate to the home screen or any other screen you desire.
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => TrescScreen()));
+                MaterialPageRoute(builder: (context) => Tresc1()));
           },
           child: Text('Tresc'),
         ),

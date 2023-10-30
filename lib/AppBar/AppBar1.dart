@@ -2,7 +2,6 @@ import 'package:dyplom/tresc_screen/Kierunki.dart';
 import 'package:dyplom/tresc_screen/Przedmioty.dart';
 import 'package:dyplom/tresc_screen/Uczelnie.dart';
 import 'package:dyplom/tresc_screen/tresc.dart';
-import 'package:dyplom/tresc_screen/tresc_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:dyplom/glowny_screen/glowny_screen.dart';
 //import 'package:dyplom/tresc_screen/wydzial_not.dart';
