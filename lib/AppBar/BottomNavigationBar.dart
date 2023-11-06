@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:dyplom/glowny_screen/glowny_screen.dart';
 //import 'package:dyplom/ranking_screen/ranking_screen.dart';
 import 'package:dyplom/theme/theme.dart';
+
+import '../user_pages/logout_page.dart';
 //import 'package:dyplom/CategoryRepository.dart';
 
 
@@ -26,7 +28,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
               icon: Icon(Icons.person),
               onPressed: () {
                 // Navigate to the 'Konto' screen
-                Navigator.push(context, MaterialPageRoute(builder: (context) => EkranGlowny()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => LogoutPage()));
               },
             ),
             IconButton(

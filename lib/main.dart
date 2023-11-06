@@ -1,6 +1,7 @@
 import 'package:dyplom/tresc_screen/CategoryRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'home_page.dart';
 import 'user_pages/login_page.dart';
@@ -14,9 +15,19 @@ import 'package:dyplom/glowny_screen/glowny_screen.dart';
 import 'package:dyplom/ranking_screen/RatingModel.dart';
 import 'package:dyplom/tresc_screen/Category.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: FirebaseOptions(
+      apiKey: 'AIzaSyBNd_Vx1xdImlJ1sZg6WfTDfhYqic5A990',
+      authDomain: 'dyplom-986dd.firebaseapp.com',
+      projectId: 'dyplom-986dd',
+      storageBucket: 'dyplom-986dd.appspot.com',
+      messagingSenderId: '232096191273',
+      appId: '1:232096191273:web:051de7f6986206c56b5d38',
+      measurementId: 'G-HE5TEZBXRF',
+    ),
+  );
   runApp(MyApp());
 }
 
@@ -237,42 +248,42 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  User? _user;
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  // User? _user;
 
-  @override
-  void initState() {
-    super.initState();
-    _user = _auth.currentUser;
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _user = _auth.currentUser;
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Studenci dla studentów"),
-        actions: [
-          _user == null
-              ? IconButton(
-                  icon: Icon(Icons.login),
-                  onPressed: () => _showLoginDialog(context),
-                )
-              : IconButton(
-                  icon: Icon(Icons.logout),
-                  onPressed: () => _logout(),
-                ),
-          _user == null
-              ? IconButton(
-                  icon: Icon(Icons.app_registration),
-                  onPressed: () => _showRegistrationDialog(context),
-                )
-              : SizedBox.shrink(),
-        ],
+        // actions: [
+        //   _user == null
+        //       ? IconButton(
+        //           icon: Icon(Icons.login),
+        //           onPressed: () => _showLoginDialog(context),
+        //         )
+        //       : IconButton(
+        //           icon: Icon(Icons.logout),
+        //           onPressed: () => _logout(),
+        //         ),
+        //   _user == null
+        //       ? IconButton(
+        //           icon: Icon(Icons.app_registration),
+        //           onPressed: () => _showRegistrationDialog(context),
+        //         )
+        //       : SizedBox.shrink(),
+        // ],
       ),
-      body: Center(
-        child:
-            _user == null ? Text('Zaloguj się') : Text('Witaj ${_user!.email}'),
-      ),
+      // body: Center(
+      //   child:
+      //       _user == null ? Text('Zaloguj się') : Text('Witaj ${_user!.email}'),
+      // ),
     );
   }
 
@@ -298,78 +309,78 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                _login(emailController.text, passwordController.text);
-                Navigator.pop(context);
-              },
-              child: Text('Zaloguj'),
-            )
-          ],
+          // actions: [
+          //   TextButton(
+          //     onPressed: () {
+          //       _login(emailController.text, passwordController.text);
+          //       Navigator.pop(context);
+          //     },
+          //     child: Text('Zaloguj'),
+          //   )
+          // ],
         );
       },
     );
   }
 
-  Future<void> _login(String email, String password) async {
-    try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      setState(() {
-        _user = userCredential.user;
-      });
-      Fluttertoast.showToast(
-        msg: "Zalogowano",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-      );
-    } catch (e) {
-      Fluttertoast.showToast(
-        msg: "Nieprawidłowy email lub hasło",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-      );
-    }
-  }
+  // Future<void> _login(String email, String password) async {
+  //   try {
+  //     // UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+  //     //   email: email,
+  //     //   password: password,
+  //     // );
+  //     // setState(() {
+  //     //   _user = userCredential.user;
+  //     // });
+  //     Fluttertoast.showToast(
+  //       msg: "Zalogowano",
+  //       toastLength: Toast.LENGTH_SHORT,
+  //       gravity: ToastGravity.BOTTOM,
+  //     );
+  //   } catch (e) {
+  //     Fluttertoast.showToast(
+  //       msg: "Nieprawidłowy email lub hasło",
+  //       toastLength: Toast.LENGTH_SHORT,
+  //       gravity: ToastGravity.BOTTOM,
+  //     );
+  //   }
+  // }
 
-  void _showRegistrationDialog(BuildContext context) {
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
+  // void _showRegistrationDialog(BuildContext context) {
+  //   TextEditingController emailController = TextEditingController();
+  //   TextEditingController passwordController = TextEditingController();
 
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: emailController,
-                decoration: InputDecoration(labelText: 'Email'),
-              ),
-              TextField(
-                controller: passwordController,
-                decoration: InputDecoration(labelText: 'Hasło'),
-                obscureText: true,
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                _register(emailController.text, passwordController.text);
-                Navigator.pop(context);
-              },
-              child: Text('Zarejestruj'),
-            )
-          ],
-        );
-      },
-    );
-  }
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         content: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             TextField(
+  //               controller: emailController,
+  //               decoration: InputDecoration(labelText: 'Email'),
+  //             ),
+  //             TextField(
+  //               controller: passwordController,
+  //               decoration: InputDecoration(labelText: 'Hasło'),
+  //               obscureText: true,
+  //             ),
+  //           ],
+  //         ),
+  //         actions: [
+  //           TextButton(
+  //             onPressed: () {
+  //               _register(emailController.text, passwordController.text);
+  //               Navigator.pop(context);
+  //             },
+  //             child: Text('Zarejestruj'),
+  //           )
+  //         ],
+        // );
+      // },
+    // );
+  // }
 }
 
 
