@@ -1,5 +1,9 @@
+import 'package:dyplom/dostepnosc_screen/dostepnosc_screen.dart';
+import 'package:dyplom/user_pages/password_change_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import '../glowny_screen/glowny_screen.dart';
 
 class LogoutPage extends StatelessWidget {
   @override
@@ -13,69 +17,45 @@ class LogoutPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 40.0),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  _logout(context);
-                },
-                child: Text('Wyloguj się'),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.brown,
-                  padding:
-                      EdgeInsets.symmetric(vertical: 30.0, horizontal: 60.0),
-                  textStyle: TextStyle(fontSize: 18.0),
-                ),
+            ElevatedButton(
+              onPressed: () {
+                _logout(context);
+              },
+              child: Text('Wyloguj się'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 80.0),
+                minimumSize: Size(200.0, 0), // Ustawienie minimalnej szerokości
+                textStyle: TextStyle(fontSize: 18.0),
               ),
             ),
-            SizedBox(height: 40.0),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context,
-                      '/password_change'); // Przenosi do ekranu zmiany hasła
-                },
-                child: Text('Edycja hasła'),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.brown,
-                  padding:
-                      EdgeInsets.symmetric(vertical: 30.0, horizontal: 60.0),
-                  textStyle: TextStyle(fontSize: 18.0),
-                ),
+            SizedBox(height: 20.0),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PasswordChangePage()),
+                );
+              },
+              child: Text('Edycja hasła'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 80.0),
+                minimumSize: Size(200.0, 0),
+                textStyle: TextStyle(fontSize: 18.0),
               ),
             ),
-            SizedBox(height: 40.0),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  // Dostępność (do zaimplementowania)
-                },
-                child: Text('Dostępność'),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.brown,
-                  padding:
-                      EdgeInsets.symmetric(vertical: 30.0, horizontal: 60.0),
-                  textStyle: TextStyle(fontSize: 18.0),
-                ),
-              ),
-            ),
-            SizedBox(height: 40.0),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(
-                      context, '/messages'); // Przenosi do strony wiadomości
-                },
-                child: Text('Wiadomości'),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.brown,
-                  padding:
-                      EdgeInsets.symmetric(vertical: 30.0, horizontal: 60.0),
-                  textStyle: TextStyle(fontSize: 18.0),
-                ),
+            SizedBox(height: 20.0),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DostepnoscScreen()),
+                );
+              },
+              child: Text('Dostępność'),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 80.0),
+                minimumSize: Size(200.0, 0),
+                textStyle: TextStyle(fontSize: 18.0),
               ),
             ),
           ],
@@ -84,9 +64,22 @@ class LogoutPage extends StatelessWidget {
     );
   }
 
-  void _logout(BuildContext context) async {
+  Future<void> _logout(BuildContext context) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
     await _auth.signOut();
+    await checkLoginStatus(context);
     Navigator.of(context).popUntil(ModalRoute.withName('/'));
+  }
+
+  Future<void> checkLoginStatus(BuildContext context) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
+
+    if (user == null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => EkranGlowny()),
+      );
+    }
   }
 }

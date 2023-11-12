@@ -27,7 +27,6 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
             Icon(
               Icons.lock,
               size: 120.0,
-              color: Colors.brown,
             ),
             SizedBox(height: 20.0),
             Container(
@@ -76,7 +75,6 @@ class _PasswordChangePageState extends State<PasswordChangePage> {
               },
               child: Text('Zmień hasło'),
               style: ElevatedButton.styleFrom(
-                primary: Colors.brown,
                 padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 60.0),
                 textStyle: TextStyle(fontSize: 18.0),
               ),

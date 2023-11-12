@@ -31,7 +31,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
             Icon(
               Icons.person_add,
               size: 120.0,
-              color: Colors.brown,
             ),
             SizedBox(height: 20.0),
             Container(
@@ -79,7 +78,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
               },
               child: Text('Zarejestruj się'),
               style: ElevatedButton.styleFrom(
-                primary: Colors.brown,
                 padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 60.0),
                 textStyle: TextStyle(fontSize: 18.0),
               ),

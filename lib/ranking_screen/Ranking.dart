@@ -1,6 +1,7 @@
 import 'package:dyplom/AppBar/BottomNavigationBar.dart';
 import 'package:dyplom/ranking_screen/ranking_screen.dart';
 import 'package:dyplom/tresc_screen/Category.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:dyplom/main.dart';
 import 'package:dyplom/AppBar/AppBar1.dart';
@@ -16,9 +17,10 @@ class Ranking extends StatefulWidget {
 class _RankingState extends State<Ranking> {
   @override
   Widget build(BuildContext context) {
-    //final repository = Provider.of<CategoryRepository>(context, listen: false);
+    final user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
-      appBar: AppBar10(), //dodanie appbar10 z pliku appbar1
+      appBar: AppBar10(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -49,7 +51,6 @@ class _RankingState extends State<Ranking> {
               child: Text('Wydzialy'),
             ),
 
-//------------------------------------------------------------------
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -78,7 +79,7 @@ class _RankingState extends State<Ranking> {
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(),
+      bottomNavigationBar: user != null ? CustomBottomNavigationBar() : null,
     );
   }
 }
