@@ -2,6 +2,7 @@
 
 //import 'package:dyplom/tresc_screen/CategoryRepository.dart';
 import 'package:dyplom/main.dart';
+import 'package:dyplom/message_pages/message_page.dart';
 import 'package:dyplom/ranking_screen/Ranking.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +36,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
               icon: Icon(Icons.message),
               onPressed: () {
                 // Navigate to the 'Wiadomości' screen
-                Navigator.push(context, MaterialPageRoute(builder: (context) => EkranGlowny()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => MessagesPage()));
               },
             ),
             IconButton(

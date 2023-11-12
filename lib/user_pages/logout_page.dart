@@ -61,6 +61,23 @@ class LogoutPage extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(height: 40.0),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(
+                      context, '/messages'); // Przenosi do strony wiadomości
+                },
+                child: Text('Wiadomości'),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.brown,
+                  padding:
+                      EdgeInsets.symmetric(vertical: 30.0, horizontal: 60.0),
+                  textStyle: TextStyle(fontSize: 18.0),
+                ),
+              ),
+            ),
           ],
         ),
       ),
