@@ -224,7 +224,6 @@ class _MessageListPageState extends State<MessageListPage> {
 
             _messageController.clear();
 
-            // Odśwież wiadomości po wysłaniu nowej wiadomości
             _loadMessages(user2);
           }
         } catch (e) {
