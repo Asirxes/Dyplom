@@ -14,7 +14,7 @@ import 'package:dyplom/glowny_screen/glowny_screen.dart';
 
 import 'package:dyplom/ranking_screen/RatingModel.dart';
 import 'package:dyplom/tresc_screen/Category.dart';
-
+// //-----KAROLOWA BAZA-------------------------------------------------------------------------------------------
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -30,7 +30,7 @@ void main() async {
   );
   runApp(MyApp());
 }
-
+//---------------------------------------------------------------------------------------------------
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
