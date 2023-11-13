@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -16,22 +15,24 @@ void main() {
 
 class Kierunki extends StatelessWidget {
   final CategoryRepository repository = CategoryRepository();
-  final CategoryType selectedCategory = CategoryType.Kierunki; // Zmień na wybraną kategorię
+  final CategoryType selectedCategory = CategoryType.Kierunki;
 
-  // Funkcja do zapisu oceny użytkownika w bazie danych Firestore
   Future<void> saveRatingToFirestore(CategoryType categoryType, String itemName, double rating) async {
-    await Firebase.initializeApp(); // Upewnij się, że Firebase jest zainicjowane.
     final firestore = FirebaseFirestore.instance;
+    final user = FirebaseAuth.instance.currentUser;
 
-    // Tworzenie referencji do odpowiedniej kolekcji i dokumentu
-    final collection = 'ratings'; // Możesz dostosować nazwę kolekcji
-    final document = '$categoryType-$itemName'; // Unikalny identyfikator dla każdego elementu
+    if (user == null) {
+      return;
+    }
 
-    // Zapis oceny do bazy danych
+    final collection = 'ratings';
+    final document = '$categoryType-$itemName';
+
     await firestore.collection(collection).doc(document).set({
       'categoryType': categoryType.toString(),
       'itemName': itemName,
       'rating': rating,
+      'userId': user.uid,
     });
   }
 
@@ -39,7 +40,7 @@ class Kierunki extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<String> items = repository.categories
         .firstWhere((category) => category.type == selectedCategory,
-            orElse: () => Category(selectedCategory, '', [], []))
+        orElse: () => Category(selectedCategory, '', [], []))
         .items;
 
     return Scaffold(
@@ -80,7 +81,6 @@ class Kierunki extends StatelessWidget {
                     repository.categories[selectedCategoryIndex].ratings.add(ratingModel);
                   }
 
-                  // Zapisz ocenę użytkownika w bazie danych Firestore
                   saveRatingToFirestore(selectedCategory, items[index], rating);
                 }
               },

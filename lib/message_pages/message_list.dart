@@ -122,12 +122,16 @@ class _MessageListPageState extends State<MessageListPage> {
               itemCount: _usersWithMessages.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(_usersWithMessages[index]),
-                  tileColor: _usersWithMessages[index] == _selectedUser
-                      ? Colors.blue[100]
-                      : null,
+                  title: Text(
+                    _usersWithMessages[index],
+                    style: TextStyle(
+                      fontWeight: _usersWithMessages[index] == _selectedUser
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                    ),
+                  ),
                   onTap: () {
-                    _loadMessages(_usersWithMessages[index]);
+                    _selectUser(_usersWithMessages[index]);
                   },
                 );
               },
@@ -149,6 +153,13 @@ class _MessageListPageState extends State<MessageListPage> {
         ],
       ),
     );
+  }
+
+  void _selectUser(String user) {
+    setState(() {
+      _selectedUser = user;
+    });
+    _loadMessages(user);
   }
 
   Widget _buildChatView() {
