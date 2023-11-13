@@ -107,10 +107,8 @@ class _RankingScreenState extends State<RankingScreen> {
 }
 
 
-
-
 Future<List<RatingModel>> getRatingsForCategory(CategoryType categoryType) async {
-  await Firebase.initializeApp(); 
+  //await Firebase.initializeApp(); 
   final firestore = FirebaseFirestore.instance;
 
   final collection = 'ratings'; // To musi być taka sama nazwa, jak w kodzie zapisu oceny
