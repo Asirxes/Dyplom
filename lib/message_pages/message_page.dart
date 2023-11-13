@@ -87,6 +87,7 @@ class _MessagesPageState extends State<MessagesPage> {
       SnackBar(
         content: Text(message),
       ),
+      
     );
   }
 }

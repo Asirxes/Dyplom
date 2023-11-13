@@ -1,8 +1,7 @@
-import 'package:dyplom/tresc_screen/CategoryRepository.dart';
+//import 'package:dyplom/tresc_screen/NieCategoryRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import 'home_page.dart';
 import 'user_pages/login_page.dart';
 import 'user_pages/logout_page.dart';
@@ -214,7 +213,7 @@ class CategoryRepository extends ChangeNotifier {
       final itemIndex = categories[categoryIndex].items.indexOf(itemName);
 
       if (itemIndex != -1) {
-        categories[categoryIndex].ratings.add(RatingModel(itemName, rating));
+        categories[categoryIndex].ratings.add(RatingModel(itemName, rating,  0.0));
       }
     }
   }

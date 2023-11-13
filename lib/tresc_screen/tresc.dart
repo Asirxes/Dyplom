@@ -1,3 +1,4 @@
+import 'package:dyplom/AppBar/BottomNavigationBar.dart';
 import 'package:dyplom/main.dart';
 import 'package:dyplom/ranking_screen/RatingModel.dart';
 import 'package:dyplom/tresc_screen/Category.dart';
@@ -56,7 +57,7 @@ class Tresc1 extends StatelessWidget {
                   .ratings
                   .firstWhere(
                     (rating) => rating.itemName == items[index],
-                    orElse: () => RatingModel(items[index], 0.0),
+                      orElse: () => RatingModel(items[index], 0.0, 0.0),
                   )
                   .rating,
               minRating: 1,
@@ -66,7 +67,7 @@ class Tresc1 extends StatelessWidget {
               itemPadding: const EdgeInsets.symmetric(horizontal: 4),
               itemBuilder: (context, _) => const Icon(Icons.star),
               onRatingUpdate: (rating) {
-                final ratingModel = RatingModel(items[index], rating);
+                final ratingModel = RatingModel(items[index], rating, 0.0);
                 final selectedCategoryIndex = repository.categories
                     .indexWhere((category) => category.type == selectedCategory);
                 if (selectedCategoryIndex != -1) {
@@ -86,6 +87,7 @@ class Tresc1 extends StatelessWidget {
           );
         },
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 }
