@@ -19,6 +19,8 @@ class _MessageListPageState extends State<MessageListPage> {
   List<Message> _messages = [];
   final TextEditingController _messageController = TextEditingController();
 
+  bool _isLeftColumnVisible = true;
+
   @override
   void initState() {
     super.initState();
@@ -96,10 +98,20 @@ class _MessageListPageState extends State<MessageListPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Wiadomości"),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.menu),
+            onPressed: () {
+              setState(() {
+                _isLeftColumnVisible = !_isLeftColumnVisible;
+              });
+            },
+          ),
+        ],
       ),
       body: Row(
         children: [
-          _buildLeftColumn(),
+          if (_isLeftColumnVisible) _buildLeftColumn(),
           Expanded(
             flex: 2,
             child: _buildChatView(),
