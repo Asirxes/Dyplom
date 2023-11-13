@@ -83,7 +83,6 @@ class _MessageListPageState extends State<MessageListPage> {
       messages.add(Message.fromMap(data));
     }
 
-    // Sortuj wiadomości według timestamp w odwrotnej kolejności
     messages.sort((a, b) => b.timestamp.compareTo(a.timestamp));
 
     setState(() {
@@ -100,13 +99,33 @@ class _MessageListPageState extends State<MessageListPage> {
       ),
       body: Row(
         children: [
+          _buildLeftColumn(),
           Expanded(
-            flex: 1,
+            flex: 2,
+            child: _buildChatView(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLeftColumn() {
+    return Container(
+      width: 150.0,
+      decoration: BoxDecoration(
+        color: Colors.pink[100],
+      ),
+      child: Column(
+        children: [
+          Expanded(
             child: ListView.builder(
               itemCount: _usersWithMessages.length,
               itemBuilder: (context, index) {
                 return ListTile(
                   title: Text(_usersWithMessages[index]),
+                  tileColor: _usersWithMessages[index] == _selectedUser
+                      ? Colors.blue[100]
+                      : null,
                   onTap: () {
                     _loadMessages(_usersWithMessages[index]);
                   },
@@ -114,26 +133,21 @@ class _MessageListPageState extends State<MessageListPage> {
               },
             ),
           ),
-          Expanded(
-            flex: 2,
-            child: _buildChatView(),
+          ElevatedButton(
+            onPressed: () async {
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MessagesPage()),
+              );
+
+              if (result != null && result == true) {
+                _loadUsersWithMessages();
+              }
+            },
+            child: Text('Dodaj Wiadomość'),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final result = await Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => MessagesPage()),
-          );
-
-          if (result != null && result == true) {
-            _loadUsersWithMessages();
-          }
-        },
-        child: Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 
