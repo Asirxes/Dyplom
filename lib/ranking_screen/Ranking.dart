@@ -3,9 +3,10 @@ import 'package:dyplom/ranking_screen/ranking_screen.dart';
 import 'package:dyplom/tresc_screen/Category.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:dyplom/main.dart';
+//import 'package:dyplom/main.dart';
+//import 'package:provider/provider.dart';
 import 'package:dyplom/AppBar/AppBar1.dart';
-import 'package:provider/provider.dart';
+
 
 class Ranking extends StatefulWidget {
   const Ranking({super.key});
