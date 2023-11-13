@@ -54,10 +54,10 @@ class _AppBar10State extends State<AppBar10> {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Przedmioty()));
                   break;
-                case 'Prowadzący':
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Tresc1()));
-                  break;
+                // case 'Prowadzący':
+                //   Navigator.push(context,
+                //       MaterialPageRoute(builder: (context) => Tresc1()));
+                //   break;
               }
             },
             itemBuilder: (BuildContext context) => [
@@ -65,7 +65,7 @@ class _AppBar10State extends State<AppBar10> {
               'Wydziały',
               'Kierunki',
               'Przedmioty',
-              'Prowadzący',
+              //'Prowadzący',
             ].map((String category) {
               return PopupMenuItem<String>(
                 value: category,
