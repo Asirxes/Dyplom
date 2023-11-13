@@ -83,7 +83,7 @@ class ContentTile extends StatelessWidget {
 
   Future<void> saveRating(
       CategoryType categoryType, String itemName, double rating) async {
-    await Firebase.initializeApp(); // Upewnij się, że Firebase jest zainicjowane.
+    //await Firebase.initializeApp(); // Upewnij się, że Firebase jest zainicjowane.
     final firestore = FirebaseFirestore.instance;
 
     // Tworzenie referencji do odpowiedniej kolekcji i dokumentu

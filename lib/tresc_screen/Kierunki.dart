@@ -113,7 +113,7 @@ class Kierunki extends StatelessWidget {
   final CategoryType selectedCategory = CategoryType.Kierunki;
 
   Future<void> saveRatingToFirestore(CategoryType categoryType, String itemName, double rating) async {
-    await Firebase.initializeApp();
+    //await Firebase.initializeApp();
     final firestore = FirebaseFirestore.instance;
     final user = FirebaseAuth.instance.currentUser;
 
