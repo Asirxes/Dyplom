@@ -1,13 +1,15 @@
+
+//import 'package:dyplom/tresc_screen/CategoryRepository.dart';
 //import 'package:dyplom/main.dart';
-//import 'package:dyplom/message_pages/message_page.dart';
+import 'package:dyplom/message_pages/message_list.dart';
 import 'package:dyplom/ranking_screen/Ranking.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 //import 'package:dyplom/glowny_screen/glowny_screen.dart';
 import 'package:dyplom/theme/theme.dart';
 
-import '../message_pages/message_list.dart';
 import '../user_pages/logout_page.dart';
+//import 'package:dyplom/CategoryRepository.dart';
 
 
 class CustomBottomNavigationBar extends StatelessWidget {
@@ -21,6 +23,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.person),
               onPressed: () {
+                // Navigate to the 'Konto' screen
                 Navigator.push(context, MaterialPageRoute(builder: (context) => LogoutPage()));
               },
             ),

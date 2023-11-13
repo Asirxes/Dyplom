@@ -4,7 +4,6 @@ import 'package:dyplom/tresc_screen/Uczelnie.dart';
 import 'package:dyplom/tresc_screen/tresc.dart';
 import 'package:flutter/material.dart';
 //import 'package:dyplom/glowny_screen/glowny_screen.dart';
-//import 'package:dyplom/tresc_screen/wydzial_not.dart';
 //import 'package:dyplom/ranking_screen/ranking_screen.dart';
 
 class AppBar10 extends StatefulWidget implements PreferredSizeWidget {
