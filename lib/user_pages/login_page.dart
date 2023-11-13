@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
             Icon(
               Icons.person,
               size: 120.0,
-              color: Colors.brown,
+             
             ),
             SizedBox(height: 20.0),
             Container(
@@ -68,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
               },
               child: Text('Zaloguj się'),
               style: ElevatedButton.styleFrom(
-                primary: Colors.brown,
+                
                 padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 60),
                 textStyle: TextStyle(fontSize: 18.0),
               ),

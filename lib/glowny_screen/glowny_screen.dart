@@ -1,4 +1,6 @@
 import 'package:dyplom/AppBar/BottomNavigationBar.dart';
+import 'package:dyplom/user_pages/login_page.dart';
+import 'package:dyplom/user_pages/registration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:dyplom/main.dart';
 import 'package:dyplom/dostepnosc_screen/dostepnosc_screen.dart';
@@ -39,7 +41,7 @@ class _EkranGlownyState extends State<EkranGlowny> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
+                  MaterialPageRoute(builder: (context) => LoginPage(onLogin: () {  },)),
                 );
               },
               child: Text('Zaloguj się'),
@@ -49,7 +51,7 @@ class _EkranGlownyState extends State<EkranGlowny> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
+                  MaterialPageRoute(builder: (context) => RegistrationPage(onRegister: () {  },)),
                 );
               },
               child: Text('Zarejestruj się'),

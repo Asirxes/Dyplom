@@ -1,5 +1,5 @@
 import 'package:dyplom/glowny_screen/glowny_screen.dart';
-import 'package:dyplom/main.dart';
+//import 'package:dyplom/main.dart';
 import 'package:dyplom/tresc_screen/Category.dart';
 import 'package:dyplom/ranking_screen/ranking_screen.dart';
 import 'package:dyplom/tresc_screen/tresc.dart';

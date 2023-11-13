@@ -1,7 +1,6 @@
 
-
 //import 'package:dyplom/tresc_screen/CategoryRepository.dart';
-import 'package:dyplom/main.dart';
+//import 'package:dyplom/main.dart';
 import 'package:dyplom/ranking_screen/Ranking.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

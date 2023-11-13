@@ -31,7 +31,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
             Icon(
               Icons.person_add,
               size: 120.0,
-              color: Colors.brown,
             ),
             SizedBox(height: 20.0),
             Container(

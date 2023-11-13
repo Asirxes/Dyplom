@@ -1,3 +1,4 @@
+import 'package:dyplom/dostepnosc_screen/dostepnosc_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -21,7 +22,7 @@ class LogoutPage extends StatelessWidget {
                 },
                 child: Text('Wyloguj się'),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.brown,
+                  
                   padding:
                       EdgeInsets.symmetric(vertical: 30.0, horizontal: 60.0),
                   textStyle: TextStyle(fontSize: 18.0),
@@ -38,7 +39,7 @@ class LogoutPage extends StatelessWidget {
                 },
                 child: Text('Edycja hasła'),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.brown,
+                  
                   padding:
                       EdgeInsets.symmetric(vertical: 30.0, horizontal: 60.0),
                   textStyle: TextStyle(fontSize: 18.0),
@@ -50,11 +51,14 @@ class LogoutPage extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
               child: ElevatedButton(
                 onPressed: () {
-                  // Dostępność (do zaimplementowania)
-                },
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DostepnoscScreen()),
+                );
+              },
                 child: Text('Dostępność'),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.brown,
+                  
                   padding:
                       EdgeInsets.symmetric(vertical: 30.0, horizontal: 60.0),
                   textStyle: TextStyle(fontSize: 18.0),
