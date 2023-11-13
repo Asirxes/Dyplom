@@ -238,48 +238,48 @@ class CategoryRepository extends ChangeNotifier {
   }
 }
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
+// class HomePage extends StatefulWidget {
+//   @override
+//   _HomePageState createState() => _HomePageState();
+// }
 
-class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Studenci dla studentów"),
-      ),
-    );
-  }
+// class _HomePageState extends State<HomePage> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text("Studenci dla studentów"),
+//       ),
+//     );
+//   }
 
-  void _showLoginDialog(BuildContext context) {
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
+//   void _showLoginDialog(BuildContext context) {
+//     TextEditingController emailController = TextEditingController();
+//     TextEditingController passwordController = TextEditingController();
 
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: emailController,
-                decoration: InputDecoration(labelText: 'Email'),
-              ),
-              TextField(
-                controller: passwordController,
-                decoration: InputDecoration(labelText: 'Hasło'),
-                obscureText: true,
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-}
+//     showDialog(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return AlertDialog(
+//           content: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+//               TextField(
+//                 controller: emailController,
+//                 decoration: InputDecoration(labelText: 'Email'),
+//               ),
+//               TextField(
+//                 controller: passwordController,
+//                 decoration: InputDecoration(labelText: 'Hasło'),
+//                 obscureText: true,
+//               ),
+//             ],
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
 
 
 
