@@ -5,11 +5,20 @@
 //   RatingModel(this.itemName, this.rating);
 // }
 
+
 class RatingModel {
-  final String itemName;
-  final double rating;
-  final double averageRating; // Add averageRating field
+  String itemName;
+  double rating;
+  double averageRating;
 
   RatingModel(this.itemName, this.rating, this.averageRating);
-  //RatingModel(this.itemName, this.averageRating);
+
+  // Add a factory constructor to create a RatingModel instance without specifying averageRating
+  factory RatingModel.fromMap(Map<String, dynamic> map) {
+    return RatingModel(
+      map['itemName'] ?? '',
+      map['rating'] ?? 0.0,
+      map['averageRating'] ?? 0.0,
+    );
+  }
 }
