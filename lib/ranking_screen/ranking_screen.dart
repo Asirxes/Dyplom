@@ -267,7 +267,7 @@ Future<List<RatingModel>> getRatingsForCategory(CategoryType categoryType) async
     final data = doc.data() as Map<String, dynamic>;
     final itemName = data['itemName'];
     final rating = data['rating'];
-    return RatingModel(itemName, rating);
+    return RatingModel(itemName, rating, 0.0); 
   }).toList();
 
   return ratings;
