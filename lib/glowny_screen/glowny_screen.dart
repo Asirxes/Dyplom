@@ -3,7 +3,7 @@ import 'package:dyplom/user_pages/login_page.dart';
 import 'package:dyplom/user_pages/registration_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:dyplom/main.dart';
+//import 'package:dyplom/main.dart';
 import 'package:dyplom/dostepnosc_screen/dostepnosc_screen.dart';
 import 'package:dyplom/AppBar/AppBar1.dart';
 
