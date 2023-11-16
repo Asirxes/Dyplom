@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:dyplom/colors.dart';
+import 'package:dyplom/theme/theme.dart';
 import 'message_page.dart';
 
 class MessageListPage extends StatefulWidget {
@@ -125,7 +126,7 @@ class _MessageListPageState extends State<MessageListPage> {
     return Container(
       width: 150.0,
       decoration: BoxDecoration(
-        color: Colors.pink[100],
+        color: red1Accent, //------------------------------
       ),
       child: Column(
         children: [
