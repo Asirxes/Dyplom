@@ -3,9 +3,6 @@ import 'package:dyplom/tresc_screen/Przedmioty.dart';
 import 'package:dyplom/tresc_screen/Uczelnie.dart';
 import 'package:dyplom/tresc_screen/tresc.dart';
 import 'package:flutter/material.dart';
-//import 'package:dyplom/glowny_screen/glowny_screen.dart';
-//import 'package:dyplom/tresc_screen/wydzial_not.dart';
-//import 'package:dyplom/ranking_screen/ranking_screen.dart';
 
 class AppBar10 extends StatefulWidget implements PreferredSizeWidget {
   @override
@@ -54,10 +51,10 @@ class _AppBar10State extends State<AppBar10> {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Przedmioty()));
                   break;
-                case 'Prowadzący':
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Tresc1()));
-                  break;
+                // case 'Prowadzący':
+                //   Navigator.push(context,
+                //       MaterialPageRoute(builder: (context) => Tresc1()));
+                //   break;
               }
             },
             itemBuilder: (BuildContext context) => [
@@ -65,7 +62,7 @@ class _AppBar10State extends State<AppBar10> {
               'Wydziały',
               'Kierunki',
               'Przedmioty',
-              'Prowadzący',
+              //'Prowadzący',
             ].map((String category) {
               return PopupMenuItem<String>(
                 value: category,
