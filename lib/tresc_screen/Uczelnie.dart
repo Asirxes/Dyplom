@@ -21,7 +21,7 @@ class Uczelnie extends StatelessWidget {
 
   // Funkcja do zapisu oceny użytkownika w bazie danych Firestore
   Future<void> saveRatingToFirestore(CategoryType categoryType, String itemName, double rating) async {
-    await Firebase.initializeApp(); // Upewnij się, że Firebase jest zainicjowane.
+    //await Firebase.initializeApp(); // ------------------------------------
     final firestore = FirebaseFirestore.instance;
 
     // Tworzenie referencji do odpowiedniej kolekcji i dokumentu

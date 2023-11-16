@@ -251,7 +251,7 @@ Future<double> getAverageRatingForCategory(CategoryType categoryType) async {
 }
 
 Future<List<RatingModel>> getRatingsForCategory(CategoryType categoryType) async {
-  await Firebase.initializeApp(); 
+  //await Firebase.initializeApp(); //-----------------------------------------------
   final firestore = FirebaseFirestore.instance;
 
   final collection = 'ratings'; 
