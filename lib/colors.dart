@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 const MaterialColor red1 = MaterialColor(_red1PrimaryValue, <int, Color>{
