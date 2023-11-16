@@ -158,7 +158,7 @@ class _RankingScreenState extends State<RankingScreen> {
   void initState() {
     super.initState();
     // Zainicjowanie Firebase, jeśli jeszcze nie zostało zainicjowane
-    Firebase.initializeApp();
+    //Firebase.initializeApp();
     loadAverageRating();
     loadRatings();
   }
@@ -223,7 +223,7 @@ class _RankingScreenState extends State<RankingScreen> {
 }
 
 Future<double> getAverageRatingForCategory(CategoryType categoryType) async {
-  await Firebase.initializeApp(); 
+  //await Firebase.initializeApp(); 
   final firestore = FirebaseFirestore.instance;
 
   final collection = 'ratings'; 
