@@ -11,14 +11,9 @@ class ThemeNotifier with ChangeNotifier {
     primarySwatch: red1,
     scaffoldBackgroundColor: Colors.white,
     textTheme: TextTheme(bodyText1: TextStyle(color: Colors.white)),
-     canvasColor: Colors.green,
-    bottomNavigationBarTheme: BottomNavigationBarThemeData(
-            backgroundColor: red1, // Set the initial color
-          ),
   );
 
   ThemeData get currentTheme => _currentTheme;
-
   void setTheme(AppTheme theme) {
     switch (theme) {
       case AppTheme.Red:
@@ -28,11 +23,6 @@ class ThemeNotifier with ChangeNotifier {
           primaryColor: red1,
           scaffoldBackgroundColor: Colors.white,
           textTheme: TextTheme(bodyText1: TextStyle(color: Colors.white)),
-
-          bottomNavigationBarTheme: BottomNavigationBarThemeData(
-            backgroundColor: red1, // Set the initial color
-          ),
-
         );
         break;
       case AppTheme.Yellow:
@@ -56,39 +46,36 @@ class ThemeNotifier with ChangeNotifier {
           primaryColor: Colors.black,
           scaffoldBackgroundColor: Color.fromARGB(255, 255, 255, 112),
           textTheme: TextTheme(bodyText1: TextStyle(color: Colors.black)),
-
           bottomNavigationBarTheme: BottomNavigationBarThemeData(
             backgroundColor: yellow1, // Set the initial color
           ),
+          // colorScheme: ColorScheme.fromSeed(
+          //   seedColor: white1,
+          //   primary: yellow1,//kolor guzików i appbar
+          //   onPrimary: black1,//tekst  
+            
+          // ),
         );
         break;
 
       case AppTheme.Black:
         _currentTheme = ThemeData(
           primarySwatch: white1,
-          primaryColor: Colors.white,
+          primaryColor: white1,
           scaffoldBackgroundColor: Colors.black,
-          //textTheme: TextTheme(bodyText1: TextStyle(color: white1)),
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: white1,
-            brightness: Brightness.dark,
-            primary: white1,
-          ),
+          //scaffoldBackgroundColor:black1Accent,
 
           // colorScheme: ColorScheme.fromSeed(
           //   seedColor: white1,
           //   brightness: Brightness.dark,
-          //   primary: white1,
-          //   onPrimary: black1,//+ tekst w guzikach
-          //   primaryContainer: Color.fromARGB(68, 7, 219, 7),
-          //   onPrimaryContainer: Color.fromARGB(255, 254, 0, 0),
-          //   secondary: white1,//+ kolor floatingActionButton
-          //   onSecondary: black1,
-          //   secondaryContainer: Color.fromARGB(177, 90, 208, 102),
-          //   onSecondaryContainer: Color.fromARGB(255, 99, 61, 190),
-          //   tertiary: Color.fromARGB(255, 194, 194, 7),
-          //   onTertiary: Color(0xFF99FF88),
-
+          //   primary: white1,//kolor guzików i appbar w bright
+          //   onPrimary: black1,//+ tekst  
+          // ),
+          // colorScheme: ColorScheme.fromSeed(
+          //   seedColor: black1,
+          //   brightness: Brightness.light,
+          //   primary: black1,//kolor guzików i appbar w bright
+          //   onPrimary: white1,//+ tekst  
           // ),
         );
         break;
