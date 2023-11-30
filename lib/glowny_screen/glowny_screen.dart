@@ -28,7 +28,8 @@ class _EkranGlownyState extends State<EkranGlowny> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar10(),
+      // appBar: AppBar10(),
+      appBar: _user != null ? AppBar10() : null,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
