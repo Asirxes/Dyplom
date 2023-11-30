@@ -1,3 +1,4 @@
+import 'package:dyplom/AppBar/BottomNavigationBar.dart';
 import 'package:dyplom/dostepnosc_screen/dostepnosc_screen.dart';
 import 'package:dyplom/user_pages/password_change_page.dart';
 import 'package:flutter/material.dart';
@@ -61,6 +62,7 @@ class LogoutPage extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 
