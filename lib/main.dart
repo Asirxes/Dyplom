@@ -1,19 +1,18 @@
 //import 'package:dyplom/tresc_screen/NieCategoryRepository.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
+// import 'home_page.dart';
+// import 'user_pages/login_page.dart';
+// import 'user_pages/logout_page.dart';
+// import 'user_pages/password_change_page.dart';
+// import 'user_pages/registration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'home_page.dart';
-import 'user_pages/login_page.dart';
-import 'user_pages/logout_page.dart';
-import 'user_pages/password_change_page.dart';
-import 'user_pages/registration_page.dart';
 import 'package:provider/provider.dart';
 import 'package:dyplom/theme/theme.dart';
 import 'package:dyplom/glowny_screen/glowny_screen.dart';
-
 import 'package:dyplom/ranking_screen/RatingModel.dart';
 import 'package:dyplom/tresc_screen/Category.dart';
-
+// //-----Karola-------------------
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -29,6 +28,18 @@ void main() async {
   );
   runApp(MyApp());
 }
+// //----------------------------------------
+// Future<void> main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp();
+//   runApp(
+//     ChangeNotifierProvider<CategoryRepository>(
+//       create: (context) => CategoryRepository(),
+//       child: MyApp(),
+//     ),
+//   );
+// }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -166,7 +177,7 @@ class CategoryRepository extends ChangeNotifier {
       'Język angielski II',
       'Język angielski - zawodowy informatyczny ',
       'Bezpieczeństwo i higiena pracy',
-      'Przysposobienie biblioteczne 2 godz./sem.',
+      'Przysposobienie biblioteczne',
       'Ochrona własności intelektualnej',
       'Podstawy ekonomii',
       'Wprowadzenie na rynek pracy i do działalności gospodarczej',
@@ -213,10 +224,13 @@ class CategoryRepository extends ChangeNotifier {
       final itemIndex = categories[categoryIndex].items.indexOf(itemName);
 
       if (itemIndex != -1) {
-        categories[categoryIndex].ratings.add(RatingModel(itemName, rating,  0.0));
+        categories[categoryIndex]
+            .ratings
+            .add(RatingModel(itemName, rating, 0.0));
       }
     }
   }
+
   void removeCategory(CategoryType categoryType) {
     categories.removeWhere((category) => category.type == categoryType);
   }
@@ -279,9 +293,3 @@ class CategoryRepository extends ChangeNotifier {
 //     );
 //   }
 // }
-
-
-
-
-
-
