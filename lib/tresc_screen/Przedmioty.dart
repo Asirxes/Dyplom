@@ -4,10 +4,9 @@ import 'package:dyplom/ranking_screen/RatingModel.dart';
 import 'package:dyplom/tresc_screen/Category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -19,33 +18,62 @@ class Przedmioty extends StatelessWidget {
   final CategoryRepository repository = CategoryRepository();
   final CategoryType selectedCategory = CategoryType.Przedmioty; // Zmień na wybraną kategorię
 
-  // Funkcja do zapisu oceny użytkownika w bazie danych Firestore
-  Future<void> saveRatingToFirestore(CategoryType categoryType, String itemName, double rating) async {
-    //await Firebase.initializeApp(); // ----------------------------------------------
+ Future<void> saveRatingToFirestore(CategoryType categoryType, String itemName, double rating) async {
     final firestore = FirebaseFirestore.instance;
+    final user = FirebaseAuth.instance.currentUser;
 
-    // Tworzenie referencji do odpowiedniej kolekcji i dokumentu
-    final collection = 'ratings'; // Możesz dostosować nazwę kolekcji
-    final document = '$categoryType-$itemName'; // Unikalny identyfikator dla każdego elementu
+    if (user == null) {
+      return;
+    }
 
-    // Zapis oceny do bazy danych
-    await firestore.collection(collection).doc(document).set({
-      'categoryType': categoryType.toString(),
-      'itemName': itemName,
-      'rating': rating,
-    });
+    final collection = 'ratings';
+    final document = '$categoryType-$itemName';
+
+     final documentReference = firestore.collection(collection).doc(document);
+
+  // await firestore.collection(collection).doc(document).set({
+  //   'categoryType': categoryType.toString(),
+  //   'itemName': itemName,
+  //   'rating': rating,
+  //   'userId': user.uid,
+  // });
+
+  // Sprawdzenie, czy użytkownik już ocenił ten przedmiot
+  final existingData = await documentReference.get();
+
+  if (existingData.exists) {
+    final List<dynamic> ratings = existingData.data()?['ratings'] ?? [];
+    final userHasRated = ratings.any((ratingData) => ratingData['userId'] == user.uid);
+
+    if (userHasRated) {
+      // Użytkownik już ocenił ten przedmiot, możesz tu podjąć odpowiednie działania
+      print('Użytkownik już ocenił ten przedmiot.');
+      return;
+    }
   }
+
+  // Dodanie nowej oceny do listy w Firestore
+  await documentReference.update({
+    'ratings': FieldValue.arrayUnion([
+      {
+        'rating': rating,
+        'userId': user.uid,
+      }
+    ])
+  });
+}
 
   @override
   Widget build(BuildContext context) {
     final List<String> items = repository.categories
         .firstWhere((category) => category.type == selectedCategory,
-            orElse: () => Category(selectedCategory, '', [], []))
+        orElse: () => Category(selectedCategory, '', [], []))
         .items;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Category: ${selectedCategory.toString()}'),
+        //title: Text('Category: ${selectedCategory.toString()}'),
+        title: Text('Oceń Przedmioty'),
       ),
       body: ListView.builder(
         itemCount: items.length,
@@ -81,7 +109,6 @@ class Przedmioty extends StatelessWidget {
                     repository.categories[selectedCategoryIndex].ratings.add(ratingModel);
                   }
 
-                  // Zapisz ocenę użytkownika w bazie danych Firestore
                   saveRatingToFirestore(selectedCategory, items[index], rating);
                 }
               },
