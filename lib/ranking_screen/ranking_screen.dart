@@ -20,7 +20,7 @@ class _RankingScreenState extends State<RankingScreen> {
   Future<double> calculateAverageRatingForItem(String itemName) async {
     final firestore = FirebaseFirestore.instance;
     final collection = 'ratings';
-    final document = '${widget.selectedCategory.toString()}-$itemName'; // Użyj zmiennej widget do dostępu do selectedCategory
+    final document = '${widget.selectedCategory.toString()}-$itemName';
 
     final documentReference = firestore.collection(collection).doc(document);
     final documentSnapshot = await documentReference.get();
@@ -38,7 +38,7 @@ class _RankingScreenState extends State<RankingScreen> {
       }
     }
 
-    return 0; // Domyślna wartość, jeśli nie ma ocen
+    return 0;
   }
 
   Widget buildRatingStars(double averageRating) {
@@ -59,7 +59,6 @@ class _RankingScreenState extends State<RankingScreen> {
     switch (categoryType) {
       case CategoryType.Kierunki:
         return 'Kierunków';
-      // Dodaj pozostałe kategorie
       case CategoryType.Uczelnie:
         return 'Uczelni';
       case CategoryType.Przedmioty:
@@ -75,53 +74,53 @@ class _RankingScreenState extends State<RankingScreen> {
   @override
   Widget build(BuildContext context) {
     final List<String> items = repository.categories
-        .firstWhere((category) => category.type == widget.selectedCategory) // Użyj zmiennej widget do dostępu do selectedCategory
+        .firstWhere((category) => category.type == widget.selectedCategory)
         .items;
 
     return Scaffold(
       appBar: AppBar(
         title: Text('Ranking ${getCategoryTitle(widget.selectedCategory)}'),
-        //title: Text('Rabking Kierunków'),
       ),
-      body: FutureBuilder(
-        future: _loadRatings(items), // Wywołaj funkcję ładowania ocen dla przedmiotów
-        builder: (BuildContext context, AsyncSnapshot<List<double>> snapshot) {
+      body: Center(
+          child: FutureBuilder(
+        future: _loadRatings(
+            items), // Wywołaj funkcję ładowania ocen dla przedmiotów
+        builder:
+            (BuildContext context, AsyncSnapshot<List<RatingData>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator(); // Wyświetl wskaźnik ładowania, jeśli nadal się ładuje
+            return CircularProgressIndicator();
           } else {
             if (snapshot.hasData) {
               return ListView.builder(
-                itemCount: items.length,
+                itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: Text(items[index]),
-                    subtitle: buildRatingStars(snapshot.data![index]),
+                    title: Text(snapshot.data![index].itemName),
+                    subtitle:
+                        buildRatingStars(snapshot.data![index].averageRating),
                   );
                 },
               );
             } else {
-              return Text('Brak danych'); // Wyświetl komunikat, jeśli brak danych
+              return Text('Brak danych');
             }
           }
         },
-      ),
+      )),
       bottomNavigationBar: CustomBottomNavigationBar(),
     );
   }
 
- Future<List<double>> _loadRatings(List<String> items) async {
-  List<Map<String, dynamic>> ratingsData = [];
+  Future<List<RatingData>> _loadRatings(List<String> items) async {
+    List<RatingData> ratingsData = [];
 
-  for (var item in items) {
-    double averageRating = await calculateAverageRatingForItem(item);
-    ratingsData.add({'item': item, 'rating': averageRating});
+    for (var item in items) {
+      double averageRating = await calculateAverageRatingForItem(item);
+      ratingsData.add(RatingData(itemName: item, averageRating: averageRating));
+    }
+
+    ratingsData.sort((a, b) => b.averageRating.compareTo(a.averageRating));
+
+    return ratingsData;
   }
-
-  ratingsData.sort((a, b) => b['rating'].compareTo(a['rating'])); // Sortowanie malejąco
-
-  List<double> sortedRatings = ratingsData.map((data) => data['rating'] as double).toList();
-
-  return sortedRatings;
-}
-
 }
