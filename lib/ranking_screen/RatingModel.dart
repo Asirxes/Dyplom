@@ -22,3 +22,10 @@ class RatingModel {
     );
   }
 }
+
+class RatingData {
+  final String itemName;
+  final double averageRating;
+
+  RatingData({required this.itemName, required this.averageRating});
+}
