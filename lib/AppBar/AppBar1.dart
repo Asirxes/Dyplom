@@ -32,8 +32,6 @@ class _AppBar10State extends State<AppBar10> {
               setState(() {
                 selectedCategory = newValue;
               });
-
-              // Navigate to the selected category screen
               switch (newValue) {
                 case 'Uczelnie':
                   Navigator.push(context,
@@ -51,10 +49,6 @@ class _AppBar10State extends State<AppBar10> {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Przedmioty()));
                   break;
-                // case 'Prowadzący':
-                //   Navigator.push(context,
-                //       MaterialPageRoute(builder: (context) => Tresc1()));
-                //   break;
               }
             },
             itemBuilder: (BuildContext context) => [

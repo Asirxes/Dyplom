@@ -4,7 +4,6 @@ import 'package:dyplom/ranking_screen/RatingModel.dart';
 import 'package:dyplom/tresc_screen/Category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-//import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -17,7 +16,7 @@ void main() {
 class Tresc1 extends StatelessWidget {
   final CategoryRepository repository = CategoryRepository();
   final CategoryType selectedCategory =
-      CategoryType.Wydzialy; // Zmień na wybraną kategorię
+      CategoryType.Wydzialy; 
 
   Future<void> saveRatingToFirestore(
       CategoryType categoryType, String itemName, double rating) async {
@@ -33,14 +32,6 @@ class Tresc1 extends StatelessWidget {
 
     final documentReference = firestore.collection(collection).doc(document);
 
-    // await firestore.collection(collection).doc(document).set({
-    //   'categoryType': categoryType.toString(),
-    //   'itemName': itemName,
-    //   // 'rating': rating,
-    //   // 'userId': user.uid,
-    // });
-
-    // Sprawdzenie, czy użytkownik już ocenił ten przedmiot
     final existingData = await documentReference.get();
 
     if (existingData.exists) {
@@ -49,13 +40,10 @@ class Tresc1 extends StatelessWidget {
           ratings.any((ratingData) => ratingData['userId'] == user.uid);
 
       if (userHasRated) {
-        // Użytkownik już ocenił ten przedmiot, możesz tu podjąć odpowiednie działania
-        print('Użytkownik już ocenił ten przedmiot.');
         return;
       }
     }
 
-    // Dodanie nowej oceny do listy w Firestore
     await documentReference.update({
       'ratings': FieldValue.arrayUnion([
         {
@@ -75,7 +63,6 @@ class Tresc1 extends StatelessWidget {
     items.sort();
     return Scaffold(
       appBar: AppBar(
-        //title: Text('Category: ${selectedCategory.toString()}'),
         title: Text('Oceń Wydzialy'),
       ),
       body: ListView.builder(

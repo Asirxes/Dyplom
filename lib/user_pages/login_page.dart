@@ -17,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController oldPasswordController =
-      TextEditingController(); // Nowa kontrolka
+      TextEditingController(); 
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
             ElevatedButton(
               onPressed: () {
                 _login(
-                  oldPasswordController.text, // Nowa kontrolka
+                  oldPasswordController.text, 
                   emailController.text,
                   passwordController.text,
                 );
@@ -78,13 +78,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login(
-    String oldPassword, // Nowy parametr
+    String oldPassword, 
     String email,
     String password,
   ) async {
     try {
       if (oldPassword.isNotEmpty) {
-        // Jeśli stare hasło nie jest puste, spróbuj zmienić hasło
         User user = _auth.currentUser!;
         final AuthCredential credential = EmailAuthProvider.credential(
           email: user.email!,
@@ -93,7 +92,6 @@ class _LoginPageState extends State<LoginPage> {
         await user.reauthenticateWithCredential(credential);
         await user.updatePassword(password);
       } else {
-        // W przeciwnym razie, zaloguj się normalnie
         UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email,
           password: password,

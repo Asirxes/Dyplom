@@ -30,14 +30,6 @@ class Kierunki extends StatelessWidget {
 
   final documentReference = firestore.collection(collection).doc(document);
 
-  // await firestore.collection(collection).doc(document).set({
-  //   'categoryType': categoryType.toString(),
-  //   'itemName': itemName,
-  //   'rating': rating,
-  //   'userId': user.uid,
-  // });
-
-  // Sprawdzenie, czy użytkownik już ocenił ten przedmiot
   final existingData = await documentReference.get();
 
   if (existingData.exists) {
@@ -45,7 +37,6 @@ class Kierunki extends StatelessWidget {
     final userHasRated = ratings.any((ratingData) => ratingData['userId'] == user.uid);
 
     if (userHasRated) {
-      // Użytkownik już ocenił ten przedmiot, możesz tu podjąć odpowiednie działania
       print('Użytkownik już ocenił ten przedmiot.');
       return;
     }

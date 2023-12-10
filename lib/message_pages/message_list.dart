@@ -126,7 +126,7 @@ class _MessageListPageState extends State<MessageListPage> {
     return Container(
       width: 150.0,
       decoration: BoxDecoration(
-        color: red1Accent, //------------------------------
+        color: red1Accent, 
       ),
       child: Column(
         children: [

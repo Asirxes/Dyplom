@@ -33,7 +33,6 @@ class _RankingScreenState extends State<RankingScreen> {
           totalRating += rating['rating'];
         }
         double averageRating = totalRating / ratings.length;
-        print('Item: $itemName, Average Rating: $averageRating');
         return averageRating;
       }
     }
@@ -84,7 +83,7 @@ class _RankingScreenState extends State<RankingScreen> {
       body: Center(
           child: FutureBuilder(
         future: _loadRatings(
-            items), // Wywołaj funkcję ładowania ocen dla przedmiotów
+            items),
         builder:
             (BuildContext context, AsyncSnapshot<List<RatingData>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {

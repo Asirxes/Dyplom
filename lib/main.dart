@@ -53,7 +53,6 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Studenci dla studentów',
             theme: themeNotifier.currentTheme,
-            //home: HomePage(),
             home: EkranGlowny(),
           );
         },
@@ -65,7 +64,6 @@ class MyApp extends StatelessWidget {
 class CategoryRepository extends ChangeNotifier {
   List<Category> categories = [
     Category(CategoryType.Uczelnie, 'Uczelnie', [
-      //Uniwersytety:
       'Uniwersytet Warszawski',
       'Uniwersytet w Białymstoku',
       'Uniwersytet Gdański',
@@ -88,7 +86,6 @@ class CategoryRepository extends ChangeNotifier {
       'Uniwersytet Bielsko-Bialski',
       'Uniwersytet Radomski im. Kazimierza Pułaskiego',
       'Uniwersytet Kaliski im. Prezydenta Stanisława Wojciechowskiego',
-//Uczelnie techniczne:
       'Zachodniopomorski Uniwersytet Technologiczny w Szczecinie',
       'Politechnika Rzeszowska im. Ignacego Łukasiewicza',
       'Politechnika Warszawska',
@@ -105,7 +102,6 @@ class CategoryRepository extends ChangeNotifier {
       'Politechnika Opolska',
       'Politechnika Poznańska',
       'Politechnika Wrocławska',
-//Uczelnie ekonomiczne:
       'Uniwersytet Ekonomiczny w Katowicach',
       'Uniwersytet Ekonomiczny w Krakowie',
       'Uniwersytet Ekonomiczny w Poznaniu',
